@@ -56,6 +56,30 @@ def setup_2_5Ghz_browser():
     return browser
 
 
+def setup_ZV_browser():
+    browser = mechanize.Browser()
+    browser.set_handle_robots(False)
+    browser.set_handle_refresh(False)
+    browser.addheaders = [
+        (
+            "User-agent",
+            "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 "
+            "Fedora/3.0.1-1.fc9 Firefox/3.0.1",
+        )
+    ]
+    browser.open("https://wireless2.fcc.gov/UlsApp/UlsSearch/searchAdvanced.jsp")
+    browser.select_form(name="advancedSearch")
+
+    # Input criteria into form
+    browser.find_control("fiRowsPerPage").items[3].selected = True
+    browser.find_control("fiRadioServiceMatchAllInd").items[1].selected = True
+    browser["radioservicecode"] = ["ZV"]
+    browser.find_control("statusAll").items[0].selected = False
+    browser.find_control("AActive").items[0].selected = True
+    browser.find_control("fiExcludeLeaseInd").items[0].selected = True
+    return browser
+
+
 def setup_cbrs_browser():
     browser = mechanize.Browser()
     browser.set_handle_robots(False)
